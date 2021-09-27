@@ -38,13 +38,18 @@ namespace Services
                 Player player = _playersService.GetPlayerById(playerId);
                 if (player == null)
                 {
-                    throw new ArgumentNullException("Player with this id does not exists");
+                    throw new ArgumentNullException("Player with this id does not exists!");
                 }
 
-                var existingTransaction = _walletRepository.GetTransactionByExternalId(transaction.ExternalId, player.Wallet.Id);
+                var existingTransaction = player.Wallet.Transactions.FirstOrDefault(t => t.ExternalId == transaction.ExternalId);
                 if (existingTransaction != null)
                 {
                     return;
+                }
+
+                if (!IsAmountValid(transaction.Amount))
+                {
+                    throw new ArgumentException("Amount has to be greater than 0!");
                 }
 
                 transaction.Id = Guid.NewGuid().ToString();
@@ -64,17 +69,22 @@ namespace Services
                         }
                         else
                         {
-                            throw new ArgumentException("Not possible to relize transaction with this amount!");
+                            throw new ArgumentException("Not possible to realize transaction with this amount!");
                         }
                     default:
-                        break;
+                        throw new ArgumentException("Not recognized transaction type!");
                 }
 
                 _walletRepository.SaveTransaction(transaction);
             }
         }
 
-        private bool IsTransactionValid(decimal playerBalance, Transaction transaction)
+        private static bool IsAmountValid(decimal amount)
+        {
+            return amount > 0;
+        }
+
+        private static bool IsTransactionValid(decimal playerBalance, Transaction transaction)
         {
             var isValid = true;
             if (transaction.Type == TransactionType.Stake)

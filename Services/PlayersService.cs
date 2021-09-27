@@ -35,7 +35,7 @@ namespace Services
         {
             if (string.IsNullOrWhiteSpace(player.Username))
             {
-                throw new ArgumentNullException("Username is required!");
+                throw new ArgumentException("Username is required!");
             }
             if (await IsUsernameExists(player.Username))
             {

@@ -11,6 +11,5 @@ namespace Data
         void SaveTransaction(Transaction transaction);
         Task<List<Transaction>> GetTransactionsForPlayer(string playerId);
         Task<Transaction> GetTransactionById(string transactionId);
-        Transaction GetTransactionByExternalId(string externalId, string walletId);
     }
 }

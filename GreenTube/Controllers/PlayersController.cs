@@ -36,13 +36,9 @@ namespace GreenTube.Controllers
 
                 return Created($"/api/players/{playerModel.Id}", playerModel);
             }
-            catch (ArgumentNullException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.ParamName);
-            }
             catch (ArgumentException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.ParamName);
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception)
             {

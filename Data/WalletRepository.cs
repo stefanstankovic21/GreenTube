@@ -16,11 +16,6 @@ namespace Data
             _dbContext = dbContext;
         }
 
-        public Transaction GetTransactionByExternalId(string externalId, string walletId)
-        {
-            return _dbContext.Transactions.FirstOrDefault(t => t.ExternalId == externalId && t.WalletId == walletId);
-        }
-
         public async Task<Transaction> GetTransactionById(string transactionId)
         {
             return await _dbContext.Transactions.FirstOrDefaultAsync(t => t.Id == transactionId);

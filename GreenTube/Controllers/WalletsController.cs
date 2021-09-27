@@ -60,7 +60,7 @@ namespace GreenTube.Controllers
             }
             catch (ArgumentException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, ex.ParamName);
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
             catch (Exception)
             {
